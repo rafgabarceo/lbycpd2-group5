@@ -1,5 +1,5 @@
-#ToDo EXP 
-##An LBYCPD2 Final Project 
+# ToDo EXP 
+## An LBYCPD2 Final Project 
 
 Under supervision of Engr. Dino Ligutan, ToDo EXP is a to-do list that aims to provide some fun
 to the notion of to-do lists. 
