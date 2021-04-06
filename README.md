@@ -24,3 +24,17 @@ In the backend, the application utilizes the Spring Framework, with several depe
 - PostgreSQL Driver for Spring
 
 The database management system is PostgreSQL. 
+
+## How to run?
+For those interested in developing the project, Jetbrains IntelliJ IDEA was used for this project.
+Maven was used as the dependency manager, and Adopt-OpenJDK 11 was used as the Java implementation.
+Therefore, the following must be installed in the computer.
+
+- Maven
+- Adopt-OpenJDK11
+- PostgreSQL 
+
+## A word about PostgreSQL
+Before running the application, an instance of PostgreSQL must already be running in the background.
+By default, PostgreSQL runs in port 5432. In PostgreSQL, there should be a table entitled todoexp-dev. 
+Do note that these can be easily edited to suite your developer environment by going to `src/main/resources/application.properties`.
