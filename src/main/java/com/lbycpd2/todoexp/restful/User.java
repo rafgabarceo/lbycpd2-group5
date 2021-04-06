@@ -1,22 +1,20 @@
 package com.lbycpd2.todoexp.restful;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name="users")
 public class User {
-    @Id @GeneratedValue Long id;
+    @Id @GeneratedValue Long userId;
 
     private String username;
     private String email;
+
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
     private Tasks todoList;
+
     private Double experience;
-    private Badges badges;
 
     public User() {
     }
@@ -25,14 +23,6 @@ public class User {
         this.username = username;
         this.email = email;
         this.experience = 0.00;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getUsername() {
@@ -59,7 +49,7 @@ public class User {
         this.todoList = todoList;
     }
 
-    public List<Task> getAllToDo() {
+    public Tasks getAllToDo() {
         return this.todoList;
     }
 
@@ -71,24 +61,11 @@ public class User {
         this.experience = experience;
     }
 
-    public Badges getBadges() {
-        return badges;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setBadges(Badges badges) {
-        this.badges = badges;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(username, user.username) && Objects.equals(email, user.email) && Objects.equals(todoList, user.todoList) && Objects.equals(experience, user.experience) && Objects.equals(badges, user.badges);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, username, email, todoList, experience, badges);
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }
