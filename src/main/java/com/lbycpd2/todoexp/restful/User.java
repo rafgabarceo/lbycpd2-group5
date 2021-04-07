@@ -2,21 +2,29 @@ package com.lbycpd2.todoexp.restful;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
+@Table(name = "clientUser")
 public class User {
-    @Id @GeneratedValue Long userId;
+    @Id @GeneratedValue @Column(name = "user_id") Long userId;
 
     private String username;
     private String email;
 
-    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
-    private Tasks todoList;
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    private List<ParentTask> parentTaskList;
 
     private Double experience;
 
     public User() {
+    }
+
+    public List<ParentTask> getParentTaskList() {
+        return parentTaskList;
+    }
+
+    public void setParentTaskList(List<ParentTask> parentTaskList) {
+        this.parentTaskList = parentTaskList;
     }
 
     public User(String username, String email) {
@@ -39,18 +47,6 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public Tasks getTodoList() {
-        return todoList;
-    }
-
-    public void setTodoList(Tasks todoList) {
-        this.todoList = todoList;
-    }
-
-    public Tasks getAllToDo() {
-        return this.todoList;
     }
 
     public Double getExperience() {
