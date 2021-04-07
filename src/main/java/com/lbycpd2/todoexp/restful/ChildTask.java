@@ -1,19 +1,16 @@
 package com.lbycpd2.todoexp.restful;
 
+import javax.annotation.processing.Generated;
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
-public class ChildTask extends ParentTask {
-    @Id
-    @GeneratedValue Long childId;
+public class ChildTask extends Task {
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parentId", nullable = false)
-    private ParentTask parentTask;
+    @Id @GeneratedValue @Column(name = "child_id") Long childId;
 
-    public ChildTask(){}
+    @ManyToOne
+    @JoinColumn(name = "parent_id")
+    private ParentTask parenttask;
 
-    public ChildTask(Long parentId){
-        this.parentId = parentId;
-    }
 }
