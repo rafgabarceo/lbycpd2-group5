@@ -3,15 +3,12 @@
 * This will contain a collection of children tasks
 *
 * */
-package com.lbycpd2.todoexp.restful;
+package com.lbycpd2.todoexp.restful.taskpackage;
 
-import net.bytebuddy.dynamic.scaffold.MethodGraph;
+import com.lbycpd2.todoexp.restful.userpackage.User;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 public class ParentTask extends Task {

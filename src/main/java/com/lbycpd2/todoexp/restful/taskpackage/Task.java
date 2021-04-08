@@ -1,4 +1,4 @@
-package com.lbycpd2.todoexp.restful;
+package com.lbycpd2.todoexp.restful.taskpackage;
 
 import javax.persistence.MappedSuperclass;
 
