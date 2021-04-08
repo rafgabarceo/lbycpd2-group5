@@ -8,15 +8,28 @@ import java.util.List;
 @Entity
 @Table(name = "clientUser")
 public class User {
-    @Id @GeneratedValue @Column(name = "user_id") Long userId;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "user_id")
+    private Long user_id;
 
     private String username;
+    private String password;
     private String email;
 
     @OneToMany(mappedBy = "user", orphanRemoval = true)
     private List<ParentTask> parentTaskList;
 
     private Double experience;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public User() {
     }
@@ -29,8 +42,9 @@ public class User {
         this.parentTaskList = parentTaskList;
     }
 
-    public User(String username, String email) {
+    public User(String username, String email, String password) {
         this.username = username;
+        this.password = password;
         this.email = email;
         this.experience = 0.00;
     }
@@ -59,11 +73,12 @@ public class User {
         this.experience = experience;
     }
 
-    public Long getUserId() {
-        return userId;
+    public Long getUser_id() {
+        return user_id;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUser_id(Long user_id) {
+        this.user_id = user_id;
     }
+
 }
