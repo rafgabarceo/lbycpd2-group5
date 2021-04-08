@@ -1,4 +1,4 @@
-package com.lbycpd2.todoexp.restful;
+package com.lbycpd2.todoexp.restful.userpackage;
 
 import org.springframework.web.bind.annotation.RestController;
 
