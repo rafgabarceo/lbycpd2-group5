@@ -18,7 +18,7 @@ public class User {
     private String password;
     private String email;
 
-    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<ParentTask> parentTaskList;
 
     private Double experience;
@@ -47,6 +47,12 @@ public class User {
         this.password = password;
         this.email = email;
         this.experience = 0.00;
+    }
+
+    // as suggested from https://stackoverflow.com/questions/53647672/how-to-save-parent-and-child-in-one-shot-jpa-hibernate
+    public void addParentTask(ParentTask parentTask){
+        this.parentTaskList.add(parentTask);
+        parentTask.setUser(this);
     }
 
     public String getUsername() {
