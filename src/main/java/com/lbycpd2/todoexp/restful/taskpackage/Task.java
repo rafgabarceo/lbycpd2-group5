@@ -11,10 +11,10 @@ public class Task {
     public Task() {
     }
 
-    public Task(String title, String description, boolean status) {
+    public Task(String title, String description) {
         this.title = title;
         this.description = description;
-        this.status = status;
+        this.status = false;
     }
 
     public String getTitle() {
