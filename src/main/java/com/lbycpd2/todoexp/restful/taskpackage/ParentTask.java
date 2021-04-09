@@ -15,12 +15,32 @@ public class ParentTask extends Task {
     @Id
     @GeneratedValue @Column(name = "parent_id") Long parentId;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
 
     @OneToMany(mappedBy = "parenttask", orphanRemoval = true)
     private List<ChildTask> childTasks;
 
     public ParentTask(){}
+
+    public Long getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<ChildTask> getChildTasks() {
+        return childTasks;
+    }
+
+    public void setChildTasks(List<ChildTask> childTasks) {
+        this.childTasks = childTasks;
+    }
 }
