@@ -1,9 +1,11 @@
 package com.lbycpd2.todoexp.restful.userpackage;
 
+import com.lbycpd2.todoexp.restful.taskpackage.ParentTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -25,7 +27,8 @@ public class UserService {
 
     @GetMapping
     public User getUser(Long userId){
-        return userRepository.getOne(userId);
+        Optional<User> optionalUser = userRepository.findById(userId);
+        return optionalUser.orElseThrow(IllegalAccessError::new);
     }
 
     public void addUser(User newUser){
@@ -42,7 +45,11 @@ public class UserService {
         userRepository.deleteById(userId);
     }
 
-    @Transactional
+    public void addNewParentTask(Long user_id, ParentTask parentTask){
+        userRepository.getOne(user_id).addParentTask(parentTask);
+        userRepository.save(userRepository.getOne(user_id));
+    }
+
     public void updateUser(Long userId, String username, String password, String email, Double experience){
         boolean exists = userRepository.existsById(userId);
         if(!exists) throw new IllegalStateException("User " + username + " with user id " + userId + " does not exist.");
