@@ -1,23 +1,22 @@
 package com.lbycpd2.todoexp.restful.userpackage;
 
 import com.lbycpd2.todoexp.restful.taskpackage.ParentTask;
+import com.lbycpd2.todoexp.restful.taskpackage.ParentTaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final ParentTaskRepository parentTaskRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, ParentTaskRepository parentTaskRepository) {
         this.userRepository = userRepository;
+        this.parentTaskRepository = parentTaskRepository;
     }
 
     @GetMapping
@@ -47,6 +46,12 @@ public class UserService {
 
     public void addNewParentTask(Long user_id, ParentTask parentTask){
         userRepository.getOne(user_id).addParentTask(parentTask);
+        userRepository.save(userRepository.getOne(user_id));
+    }
+
+    public void deleteParentTask(Long user_id, Long parent_id){
+        Optional<ParentTask> optionalParentTask = parentTaskRepository.findById(parent_id);
+        userRepository.getOne(user_id).deleteParentTask(optionalParentTask.orElseThrow(IllegalAccessError::new));
         userRepository.save(userRepository.getOne(user_id));
     }
 

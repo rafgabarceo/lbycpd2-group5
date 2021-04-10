@@ -55,6 +55,10 @@ public class User {
         this.parentTaskList.add(parentTask);
     }
 
+    public void deleteParentTask(ParentTask parentTask){
+        this.parentTaskList.remove(parentTask);
+    }
+
     public String getUsername() {
         return username;
     }

@@ -34,6 +34,11 @@ public class UserController {
         userService.addNewParentTask(userId, parentTask);
     }
 
+    @DeleteMapping(path="{user_id}/{parent_id}")
+    public void deletePTask(@PathVariable("user_id") Long userId, @PathVariable("parent_id") Long parent_id){
+        userService.deleteParentTask(userId, parent_id);
+    }
+
     @DeleteMapping(path="{user_id}")
     public void deleteUser(@PathVariable("user_id") Long userId){
         userService.deleteUser(userId);
