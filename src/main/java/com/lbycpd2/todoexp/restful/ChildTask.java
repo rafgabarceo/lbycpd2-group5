@@ -1,4 +1,4 @@
-package com.lbycpd2.todoexp.restful.taskpackage;
+package com.lbycpd2.todoexp.restful;
 
 import javax.persistence.*;
 

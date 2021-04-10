@@ -1,7 +1,5 @@
-package com.lbycpd2.todoexp.restful.userpackage;
+package com.lbycpd2.todoexp.restful;
 
-import com.lbycpd2.todoexp.restful.taskpackage.ParentTask;
-import com.lbycpd2.todoexp.restful.taskpackage.ParentTaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,14 +7,16 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserService {
+public class MainService {
     private final UserRepository userRepository;
-    private final ParentTaskRepository parentTaskRepository;
+    private final ParentTaskRepository parentRepository;
+    private final ChildRepository childRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository, ParentTaskRepository parentTaskRepository) {
+    public MainService(UserRepository userRepository, ParentTaskRepository parentRepository, ChildRepository childRepository) {
         this.userRepository = userRepository;
-        this.parentTaskRepository = parentTaskRepository;
+        this.parentRepository = parentRepository;
+        this.childRepository = childRepository;
     }
 
     @GetMapping
@@ -38,6 +38,10 @@ public class UserService {
         userRepository.save(newUser);
     }
 
+    private void saveUser(Long user_id){
+        userRepository.save(userRepository.getOne(user_id));
+    }
+
     public void deleteUser(Long userId){
         boolean exists = userRepository.existsById(userId);
         if(!exists) throw new IllegalStateException("User with id " + userId + " does not exist.");
@@ -46,13 +50,23 @@ public class UserService {
 
     public void addNewParentTask(Long user_id, ParentTask parentTask){
         userRepository.getOne(user_id).addParentTask(parentTask);
-        userRepository.save(userRepository.getOne(user_id));
+        saveUser(user_id);
     }
 
     public void deleteParentTask(Long user_id, Long parent_id){
-        Optional<ParentTask> optionalParentTask = parentTaskRepository.findById(parent_id);
+        Optional<ParentTask> optionalParentTask = parentRepository.findById(parent_id);
         userRepository.getOne(user_id).deleteParentTask(optionalParentTask.orElseThrow(IllegalAccessError::new));
-        userRepository.save(userRepository.getOne(user_id));
+        saveUser(user_id);
+    }
+
+    public void addNewChildTask(Long user_id, Long parent_id, ChildTask childTask){
+        parentRepository.getOne(parent_id).addChildTask(childTask);
+        saveUser(user_id);
+    }
+
+    public void deleteChildTask(Long user_id, Long parent_id, Long child_id){
+        parentRepository.getOne(parent_id).deleteChildTask(childRepository.getOne(child_id));
+        saveUser(user_id);
     }
 
     public void updateUser(Long userId, String username, String password, String email, Double experience){
