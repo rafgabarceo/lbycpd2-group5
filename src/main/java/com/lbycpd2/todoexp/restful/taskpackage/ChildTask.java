@@ -11,4 +11,22 @@ public class ChildTask extends Task {
     @JoinColumn(name = "parent_id")
     private ParentTask parenttask;
 
+    public ChildTask(Long childId, ParentTask parenttask) {
+        this.childId = childId;
+        this.parenttask = parenttask;
+    }
+
+    public ChildTask(){}
+
+    public Long getChildId() {
+        return childId;
+    }
+
+    public void setChildId(Long childId) {
+        this.childId = childId;
+    }
+
+    public void setParenttask(ParentTask parenttask) {
+        this.parenttask = parenttask;
+    }
 }

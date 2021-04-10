@@ -19,7 +19,7 @@ public class ParentTask extends Task {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "parenttask", orphanRemoval = true)
+    @OneToMany(mappedBy = "parenttask", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<ChildTask> childTasks;
 
     public ParentTask(){}
@@ -32,12 +32,13 @@ public class ParentTask extends Task {
         this.parentId = parentId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void addChildTask(ChildTask childTask){
+        childTask.setParenttask(this);
+        this.childTasks.add(childTask);
     }
 
-    public List<ChildTask> getChildTasks() {
-        return childTasks;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public void setChildTasks(List<ChildTask> childTasks) {
