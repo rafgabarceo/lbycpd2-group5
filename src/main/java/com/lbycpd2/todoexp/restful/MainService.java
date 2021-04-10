@@ -48,6 +48,29 @@ public class MainService {
         userRepository.deleteById(userId);
     }
 
+    public List<ParentTask> getParentTasks(Long user_id){
+        return userRepository.getOne(user_id).getParentTaskList();
+    }
+
+    public ParentTask getParentTask(Long user_id, Long parent_id){
+        Optional<User> optionalUser = userRepository.findById(user_id);
+        if (optionalUser.isEmpty()){
+            throw new IllegalStateException("User not found");
+        }
+
+        Optional<ParentTask> optionalParentTask = parentRepository.findById(parent_id);
+        if(optionalParentTask.isEmpty()){
+            throw new IllegalStateException("Parent task not found");
+        }
+
+        // check if parenttask id is equal to the user_id
+        if(!optionalParentTask.get().getParentId().equals(optionalUser.get().getUser_id())) {
+            throw new IllegalStateException("User id and parent task id does not match!");
+        }
+
+        return optionalParentTask.orElseThrow(IllegalAccessError::new);
+    }
+
     public void addNewParentTask(Long user_id, ParentTask parentTask){
         userRepository.getOne(user_id).addParentTask(parentTask);
         saveUser(user_id);
