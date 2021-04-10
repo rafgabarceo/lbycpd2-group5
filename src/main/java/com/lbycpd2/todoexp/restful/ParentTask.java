@@ -3,9 +3,7 @@
 * This will contain a collection of children tasks
 *
 * */
-package com.lbycpd2.todoexp.restful.taskpackage;
-
-import com.lbycpd2.todoexp.restful.userpackage.User;
+package com.lbycpd2.todoexp.restful;
 
 import javax.persistence.*;
 import java.util.List;
@@ -22,6 +20,10 @@ public class ParentTask extends Task {
     @OneToMany(mappedBy = "parenttask", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<ChildTask> childTasks;
 
+    public List<ChildTask> getChildTasks() {
+        return childTasks;
+    }
+
     public ParentTask(){}
 
     public Long getParentId() {
@@ -35,6 +37,10 @@ public class ParentTask extends Task {
     public void addChildTask(ChildTask childTask){
         childTask.setParenttask(this);
         this.childTasks.add(childTask);
+    }
+
+    public void deleteChildTask(ChildTask childTask){
+        this.childTasks.remove(childTask);
     }
 
     public void setUser(User user) {
