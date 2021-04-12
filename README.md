@@ -9,6 +9,7 @@ ToDoEXP utilizes Apache Maven to build and manage dependencies. By inspecting th
 - Spring Thymeleaf
 - Spring Web 
 - Spring HATEOAS 
+- Spring Boot Security
 - Postgresql Driver
 - Spring Boot Test
 - NodeJs 
