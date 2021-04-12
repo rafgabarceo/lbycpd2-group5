@@ -23,7 +23,7 @@ Because the back-end is written in Java, back-end development utilizes Jetbrains
 #### Front-end
 Front-end, and its middleware to the back-end, is developed and maintained by Daine Jadman and Justine Juan
 
-- [] Landing page
+- [x] Landing page
 - [] Login page
 - [] Home page 
 - [] New task page
