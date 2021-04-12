@@ -23,15 +23,15 @@ Because the back-end is written in Java, back-end development utilizes Jetbrains
 #### Front-end
 Front-end, and its middleware to the back-end, is developed and maintained by Daine Jadman and Justine Juan
 
-- [x] Landing page
-- [] Login page
-- [] Home page 
-- [] New task page
-- [] View task page
-- [] Delete task page
-- [] Update task page
-- [] Shop
-- [] User profile
+- [ ] Landing page
+- [ ] Login page
+- [ ] Home page 
+- [ ] New task page
+- [ ] View task page
+- [ ] Delete task page
+- [ ] Update task page
+- [ ] Shop
+- [ ] User profile
 
 #### Back-end
 Back-end, and its middleware to the front-end, is developed and maintained by Rafael Gabriel Arceo
@@ -48,15 +48,15 @@ Back-end, and its middleware to the front-end, is developed and maintained by Ra
 - [x] OneToMany relationship of ParentTask to ChildTask
 - [x] ManyToOne relationship of ChildTask to ParentTask
 - [x] No recursion in the relationship testing
-- [] Experience point assignment to tasks
+- [ ] Experience point assignment to tasks
 
 ##### User module
 - [x] Storing of user information in the database
 - [x] OneToMany relationship implementation with Parent Task
 - [x] Allowing access of different users based on REST
-- [] Login page implementation
-- [] Security-first approach to user creation
+- [ ] Login page implementation
+- [ ] Security-first approach to user creation
 
 ##### Store and Badges module
-- [] Initial progress
+- [ ] Initial progress
 ##### 
