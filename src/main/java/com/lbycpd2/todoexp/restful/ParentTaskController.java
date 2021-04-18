@@ -28,5 +28,4 @@ public class ParentTaskController {
     public void deleteChildTask(@PathVariable Long user_id, @PathVariable Long parent_id, @PathVariable Long child_id){
         service.deleteChildTask(user_id, parent_id, child_id);
     }
-
 }
