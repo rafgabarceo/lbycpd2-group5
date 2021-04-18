@@ -1,4 +1,4 @@
-package com.lbycpd2.todoexp.restful;
+package com.lbycpd2.todoexp.restful.user;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -10,9 +10,11 @@ public class UseConfiguration {
     CommandLineRunner commandLineRunner(UserRepository userRepository){
         return args -> {
             User gabarceo = new User(
-                    "gabarceo",
+                    "gab",
+                    "arceo",
                     "arceo.rafaelgabriel@gmail.com",
-                    "123"
+                    "password",
+                    UserRole.USER
             );
             userRepository.save(gabarceo);
         };
