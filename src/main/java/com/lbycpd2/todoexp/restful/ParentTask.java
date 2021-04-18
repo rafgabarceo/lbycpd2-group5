@@ -5,6 +5,8 @@
 * */
 package com.lbycpd2.todoexp.restful;
 
+import com.lbycpd2.todoexp.restful.user.User;
+
 import javax.persistence.*;
 import java.util.List;
 
