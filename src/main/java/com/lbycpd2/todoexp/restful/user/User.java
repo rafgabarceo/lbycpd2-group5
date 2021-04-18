@@ -54,9 +54,6 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public User() {
-    }
-
     public List<ParentTask> getParentTaskList() {
         return parentTaskList;
     }
@@ -65,11 +62,12 @@ public class User implements UserDetails {
         this.parentTaskList = parentTaskList;
     }
 
-    public User(String firstName, String lastName, String email, String password) {
+    public User(String firstName, String lastName, String email, String password, UserRole userRole) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
         this.email = email;
+        this.userRole = userRole;
         this.experience = 0.00;
     }
 
