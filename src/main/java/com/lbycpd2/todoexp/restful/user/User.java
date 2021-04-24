@@ -1,6 +1,6 @@
 package com.lbycpd2.todoexp.restful.user;
 
-import com.lbycpd2.todoexp.restful.ParentTask;
+import com.lbycpd2.todoexp.restful.tasks.child.ParentTask;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

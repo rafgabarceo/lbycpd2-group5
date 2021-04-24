@@ -1,11 +1,14 @@
-package com.lbycpd2.todoexp.restful;
+package com.lbycpd2.todoexp.restful.tasks;
 
 import com.lbycpd2.todoexp.restful.registration.token.ConfirmationToken;
 import com.lbycpd2.todoexp.restful.registration.token.ConfirmationTokenService;
+import com.lbycpd2.todoexp.restful.tasks.child.ChildRepository;
+import com.lbycpd2.todoexp.restful.tasks.child.ChildTask;
+import com.lbycpd2.todoexp.restful.tasks.child.ParentTask;
+import com.lbycpd2.todoexp.restful.tasks.parent.ParentTaskRepository;
 import com.lbycpd2.todoexp.restful.user.User;
 import com.lbycpd2.todoexp.restful.user.UserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,6 +24,7 @@ import java.util.UUID;
 @Service
 @AllArgsConstructor
 public class MainService implements UserDetailsService {
+
     private final UserRepository userRepository;
     private final ParentTaskRepository parentRepository;
     private final ChildRepository childRepository;

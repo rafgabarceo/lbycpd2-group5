@@ -1,6 +1,6 @@
 package com.lbycpd2.todoexp.restful.registration;
 
-import com.lbycpd2.todoexp.restful.MainService;
+import com.lbycpd2.todoexp.restful.tasks.MainService;
 import com.lbycpd2.todoexp.restful.email.EmailSender;
 import com.lbycpd2.todoexp.restful.registration.token.ConfirmationToken;
 import com.lbycpd2.todoexp.restful.registration.token.ConfirmationTokenService;
