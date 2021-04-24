@@ -1,40 +1,64 @@
-# ToDo EXP 
-## An LBYCPD2 Final Project 
+# ToDoEXP
+## Game-ify your productivity
+ToDoEXP is a Java web application that intends to serve as a simple todo-list that gives its users an additional feel of satisfcation by employing a reward system. Much like in a videogame, ToDoEXP offers its users simple experience points that come along with the tasks they input. As they gather more experience, users will be able to spend them on various in-app purchases. 
 
-Under supervision of Engr. Dino Ligutan, ToDo EXP is a to-do list that aims to provide some fun
-to the notion of to-do lists. 
-
-Much like the to-do lists created before it, ToDo EXP will allow its users to set dates for their tasks, add
-subtasks, titles, descriptions, etc. However, what sets it apart from other to-do lists is that it has an internal
-reward system. This reward system will allow users to gather badges and other in-app items.
-
-Do note that this is very much a school project, and is not intended to be deployed to the masses. However,
-it is the group's goal to have the application itself deployed in the cloud.
-
-### What technologies are used in this application?
-<img src="technologyStack.png">
-
-The application utilizes NodeJS for Javascript, Bootstrap for the style, and React as the overall Javascript framework.
-
-In the backend, the application utilizes the Spring Framework, with several dependencies which include, but are not limited to:
+### Dependencies
+ToDoEXP utilizes Apache Maven to build and manage dependencies. By inspecting the `pom.xml` file, there are several dependencies from the Spring Framework project.
 
 - Spring Data JPA
-- Thymeleaf
-- Spring Web
-- PostgreSQL Driver for Spring
+- Spring Thymeleaf
+- Spring Web 
+- Spring HATEOAS 
+- Spring Boot Security
+- Postgresql Driver
+- Spring Boot Test
+- NodeJs 
+- Axios
 
-The database management system is PostgreSQL. 
+The DBMS utilized is PostgreSQL. If the settings for PostgreSQL is not default, edit `applications.properties` in the project's root folder and edit it accordingly. 
 
-## How to run?
-For those interested in developing the project, Jetbrains IntelliJ IDEA was used for this project.
-Maven was used as the dependency manager, and Adopt-OpenJDK 11 was used as the Java implementation.
-Therefore, the following must be installed in the computer.
+### Developer environment
+Because the back-end is written in Java, back-end development utilizes Jetbrains IntelliJ IDEA. For the front-end development, Visual Studio Code is used. However, it is up to the contributor in which tools they are most comfortable with. 
 
-- Maven
-- Adopt-OpenJDK11
-- PostgreSQL 
+### Progress
+#### Front-end
+Front-end, and its middleware to the back-end, is developed and maintained by Daine Jadman and Justine Juan
 
-## A word about PostgreSQL
-Before running the application, an instance of PostgreSQL must already be running in the background.
-By default, PostgreSQL runs in port 5432. In PostgreSQL, there should be a table entitled todoexp-dev. 
-Do note that these can be easily edited to suite your developer environment by going to `src/main/resources/application.properties`.
+- [ ] Landing page
+- [ ] Login page
+- [ ] Home page 
+- [ ] New task page
+- [ ] View task page
+- [ ] Delete task page
+- [ ] Update task page
+- [ ] Shop
+- [ ] User profile
+
+#### Back-end
+Back-end, and its middleware to the front-end, is developed and maintained by Rafael Gabriel Arceo
+
+##### REST and Database module
+- [x] Basic REST implementation
+- [x] Proper mapping
+- [x] Functional HTTP requests and response
+- [x] Mapping of parent-child implementation for tasks and connected through Spring Data JPA
+- [ ] HATOEAS refactoring 
+
+##### Task module
+- [x] Functional CRUD operations on objects
+- [x] OneToMany relationship of ParentTask to ChildTask
+- [x] ManyToOne relationship of ChildTask to ParentTask
+- [x] No recursion in the relationship testing
+- [ ] Experience point assignment to tasks
+
+##### User module
+- [x] Storing of user information in the database
+- [x] OneToMany relationship implementation with Parent Task
+- [x] Allowing access of different users based on REST
+- [ ] Login page implementation
+- [ ] User authentication
+- [ ] Security-first approach to user creation
+
+##### Store and Badges module
+- [ ] Initial progress
+##### 
