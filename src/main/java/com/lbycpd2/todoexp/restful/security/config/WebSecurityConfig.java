@@ -1,7 +1,7 @@
 package com.lbycpd2.todoexp.restful.security.config;
 
 
-import com.lbycpd2.todoexp.restful.MainService;
+import com.lbycpd2.todoexp.restful.tasks.MainService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

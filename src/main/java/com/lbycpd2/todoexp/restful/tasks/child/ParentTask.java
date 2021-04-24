@@ -3,8 +3,9 @@
 * This will contain a collection of children tasks
 *
 * */
-package com.lbycpd2.todoexp.restful;
+package com.lbycpd2.todoexp.restful.tasks.child;
 
+import com.lbycpd2.todoexp.restful.tasks.Task;
 import com.lbycpd2.todoexp.restful.user.User;
 
 import javax.persistence.*;
