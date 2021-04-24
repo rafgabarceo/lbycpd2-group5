@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @AllArgsConstructor
@@ -23,9 +24,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
+                .antMatchers("/api/v*/registration/**").permitAll()
                 .antMatchers("/").permitAll()
-                .antMatchers("/api/v*/registration/**")
-                .permitAll()
+                .antMatchers("/api/v1/users").hasAnyRole("ADMIN")
                 .anyRequest()
                 .authenticated().and()
                 .formLogin();
@@ -33,7 +34,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth
+                .inMemoryAuthentication()
+                .withUser("admin")
+                .password("admin")
+                .roles("ADMIN");
         auth.authenticationProvider(daoAuthenticationProvider());
+    }
+
+    @Bean
+    public PasswordEncoder getPasswordEncoder(){
+        return bCryptPasswordEncoder;
     }
 
     @Bean

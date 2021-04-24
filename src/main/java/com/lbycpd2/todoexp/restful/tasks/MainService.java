@@ -1,7 +1,5 @@
 package com.lbycpd2.todoexp.restful.tasks;
 
-import com.lbycpd2.todoexp.restful.registration.token.ConfirmationToken;
-import com.lbycpd2.todoexp.restful.registration.token.ConfirmationTokenService;
 import com.lbycpd2.todoexp.restful.tasks.child.ChildRepository;
 import com.lbycpd2.todoexp.restful.tasks.child.ChildTask;
 import com.lbycpd2.todoexp.restful.tasks.child.ParentTask;
@@ -16,10 +14,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -30,7 +26,12 @@ public class MainService implements UserDetailsService {
     private final ChildRepository childRepository;
     private final static String USER_NOT_FOUND_MESSAGE = "User not found!";
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final ConfirmationTokenService confirmationTokenService;
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return userRepository.findUserByEmail(email).orElseThrow(
+                () -> new UsernameNotFoundException(USER_NOT_FOUND_MESSAGE));
+    }
 
     @GetMapping
     public List<User> getUsers() {
@@ -120,42 +121,5 @@ public class MainService implements UserDetailsService {
         }
         if(password != null && !password.equals(userUpdate.getPassword())) userUpdate.setPassword(password);
         if(experience > 0) userUpdate.setExperience(userUpdate.getExperience() + experience);
-    }
-
-    // for the user login registration details
-
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return userRepository.findUserByEmail(email).orElseThrow(
-                () -> new UsernameNotFoundException(USER_NOT_FOUND_MESSAGE));
-    }
-
-    public String signUpUser(User user){
-        boolean userExist = userRepository.findUserByEmail(user.getEmail()).isPresent();
-
-        if(userExist){
-            throw new IllegalStateException("email already taken!");
-        }
-
-        String encode = bCryptPasswordEncoder.encode(user.getPassword());
-        user.setPassword(encode);
-
-        userRepository.save(user);
-
-        String token = UUID.randomUUID().toString();
-
-        ConfirmationToken confirmationToken = new ConfirmationToken(
-                token,
-                LocalDateTime.now(),
-                LocalDateTime.now().plusMinutes(15),
-                user);
-
-        confirmationTokenService.saveConfirmationToken(confirmationToken);
-
-        return token;
-    }
-
-    public int enableUser(String email){
-        return userRepository.enableUser(email);
     }
 }
