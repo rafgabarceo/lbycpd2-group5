@@ -1,10 +1,8 @@
 package com.lbycpd2.todoexp.restful.user;
 
-import com.lbycpd2.todoexp.restful.tasks.child.ParentTask;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.lbycpd2.todoexp.restful.user.tasks.parent.ParentTask;
+import lombok.*;
+import org.springframework.hateoas.RepresentationModel;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,15 +10,17 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 @Entity
-@Table(name = "clientUser")
+@Table(name = "client_user")
 @Getter
 @Setter
 @EqualsAndHashCode
 @NoArgsConstructor
-public class User implements UserDetails {
+@ToString
+public class User implements UserDetails{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -46,20 +46,9 @@ public class User implements UserDetails {
         return Collections.singletonList(authority);
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public List<ParentTask> getParentTaskList() {
-        return parentTaskList;
-    }
-
-    public void setParentTaskList(List<ParentTask> parentTaskList) {
-        this.parentTaskList = parentTaskList;
+    @Override
+    public String getUsername() {
+        return email;
     }
 
     public User(String firstName, String lastName, String email, String password, UserRole userRole) {
@@ -75,14 +64,6 @@ public class User implements UserDetails {
     public void addParentTask(ParentTask parentTask){
         parentTask.setUser(this);
         this.parentTaskList.add(parentTask);
-    }
-
-    public void deleteParentTask(ParentTask parentTask){
-        this.parentTaskList.remove(parentTask);
-    }
-
-    public String getUsername() {
-        return email;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.lbycpd2.todoexp.restful.tasks;
+package com.lbycpd2.todoexp.restful.user.tasks;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

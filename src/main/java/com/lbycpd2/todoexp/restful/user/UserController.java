@@ -1,58 +1,60 @@
 package com.lbycpd2.todoexp.restful.user;
 
-import com.lbycpd2.todoexp.restful.tasks.MainService;
-import com.lbycpd2.todoexp.restful.tasks.child.ParentTask;
+import com.lbycpd2.todoexp.restful.user.exceptions.TaskNotFoundException;
+import com.lbycpd2.todoexp.restful.user.tasks.parent.ParentModelAssembler;
+import com.lbycpd2.todoexp.restful.user.tasks.parent.ParentTask;
+import lombok.AllArgsConstructor;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
-@RequestMapping(path = "api/v1/users")
+@AllArgsConstructor
+@RequestMapping(path = "/users")
 public class UserController {
-    private final MainService mainService;
 
-    public UserController(MainService mainService){
-        this.mainService = mainService;
-    }
+    private final UserService userService;
+    private final UserModelAssembler userModelAssembler;
+    private final ParentModelAssembler parentModelAssembler;
 
     @GetMapping
-    public List<User> getUsers(){
-        return mainService.getUsers();
+    public CollectionModel<EntityModel<User>> getAllUsers(){
+        List<EntityModel<User>> users = userService
+                .getUsers()
+                .stream()
+                .map(userModelAssembler::toModel).collect(Collectors.toList());
+        return CollectionModel.of(users, linkTo(methodOn(UserService.class).getUsers()).withSelfRel());
     }
 
-    @GetMapping(path="{user_id}")
-    public User getOneUser(@PathVariable("user_id") Long userId){
-        return mainService.getUser(userId);
+    @GetMapping(path="{id}")
+    public EntityModel<User> getUser(@PathVariable(name = "id") Long id){
+        User user = userService.getUser(id);
+        return userModelAssembler.toModel(user);
     }
 
-    @PostMapping
-    public void registerNewUser(@RequestBody User user){
-        mainService.addUser(user);
+
+    @GetMapping(path="{id}/tasks")
+    public CollectionModel<EntityModel<ParentTask>> getUserParentTasks(@PathVariable(name = "id") Long id){
+        List<EntityModel<ParentTask>> ptasks = userService
+                .getParentTasks()
+                .stream()
+                .map(parentModelAssembler::toModel).collect(Collectors.toList());
+        return CollectionModel.of(ptasks, linkTo(methodOn(UserService.class).getParentTasks()).withSelfRel());
     }
 
-    @PostMapping(path="{user_id}/newparent")
-    public void addPTask(@PathVariable("user_id") Long userId, @RequestBody ParentTask parentTask){
-        mainService.addNewParentTask(userId, parentTask);
-    }
 
-    @DeleteMapping(path="{user_id}/{parent_id}")
-    public void deletePTask(@PathVariable("user_id") Long userId, @PathVariable("parent_id") Long parent_id){
-        mainService.deleteParentTask(userId, parent_id);
-    }
-
-    @DeleteMapping(path="{user_id}")
-    public void deleteUser(@PathVariable("user_id") Long userId){
-        mainService.deleteUser(userId);
-    }
-
-    //TODO: Fix PUT request
-    @PutMapping(path="{user_id}")
-    public void updateUser(@PathVariable("user_id") Long studentId,
-                           @RequestParam(required = false) String username,
-                           @RequestParam(required = false) String password,
-                           @RequestParam(required = false) String email,
-                           @RequestParam(required = false) Double experience){
-        mainService.updateUser(studentId, username, password, email, experience);
+    @GetMapping(path = "{id}/{parent_id}}")
+    public EntityModel<ParentTask> getParentTask(@PathVariable(name = "parent_id") Long parent_id) throws TaskNotFoundException {
+        ParentTask ptask = userService.getParentTask(parent_id);
+        return parentModelAssembler.toModel(ptask);
     }
 }
+
+

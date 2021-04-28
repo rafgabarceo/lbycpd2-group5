@@ -6,8 +6,8 @@ server:
 spring:
   datasource:
     password: 511234
-    url: jdbc:postgresql://localhost:5432/todoexp
-    username: gabarceo
+    url: jdbc:postgresql://localhost:5432/todoexpdev
+    username: postgres
   jpa:
     hibernate:
       ddl-auto: create-drop
