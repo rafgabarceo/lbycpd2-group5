@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -41,9 +42,21 @@ public class UserService implements UserDetailsService {
         return parentRepository.findAll();
     }
 
-    public ParentTask getParentTask(Long parentId) throws TaskNotFoundException {
-        return parentRepository.findById(parentId).orElseThrow(
-                () -> new TaskNotFoundException("Parent id " + parentId + " not found")
-        );
+    public ParentTask getParentTask(Long userId, Long parentId) throws TaskNotFoundException, UserNotFoundException {
+        Optional<User> user = userRepository.findById(userId);
+        if(user.isEmpty()){
+            throw new UserNotFoundException("User not found");
+        }
+
+        Optional<ParentTask> parentTask = user
+                .get()
+                .getParentTaskList()
+                .stream()
+                .filter(id -> id.getParentId().equals(parentId)).findFirst();
+        if(parentTask.isEmpty()){
+            throw new TaskNotFoundException("Parent task not found.");
+        }
+
+        return parentTask.get();
     }
 }

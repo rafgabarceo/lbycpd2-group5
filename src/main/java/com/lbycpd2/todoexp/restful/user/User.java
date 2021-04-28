@@ -8,10 +8,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name = "client_user")
@@ -36,7 +33,7 @@ public class User implements UserDetails{
     private Boolean enabled = false;
 
     @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
-    private List<ParentTask> parentTaskList;
+    private List<ParentTask> parentTaskList = new ArrayList<>();
 
     private Double experience = 0.00;
 

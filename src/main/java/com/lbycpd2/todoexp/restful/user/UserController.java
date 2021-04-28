@@ -1,6 +1,7 @@
 package com.lbycpd2.todoexp.restful.user;
 
 import com.lbycpd2.todoexp.restful.user.exceptions.TaskNotFoundException;
+import com.lbycpd2.todoexp.restful.user.exceptions.UserNotFoundException;
 import com.lbycpd2.todoexp.restful.user.tasks.parent.ParentModelAssembler;
 import com.lbycpd2.todoexp.restful.user.tasks.parent.ParentTask;
 import lombok.AllArgsConstructor;
@@ -42,17 +43,19 @@ public class UserController {
 
     @GetMapping(path="{id}/tasks")
     public CollectionModel<EntityModel<ParentTask>> getUserParentTasks(@PathVariable(name = "id") Long id){
-        List<EntityModel<ParentTask>> ptasks = userService
-                .getParentTasks()
+        User currentUser = userService.getUser(id);
+        List<EntityModel<ParentTask>> parentTasks = currentUser
+                .getParentTaskList()
                 .stream()
                 .map(parentModelAssembler::toModel).collect(Collectors.toList());
-        return CollectionModel.of(ptasks, linkTo(methodOn(UserService.class).getParentTasks()).withSelfRel());
+        return CollectionModel.of(parentTasks, linkTo(methodOn(UserService.class).getParentTasks()).withSelfRel());
     }
 
 
-    @GetMapping(path = "{id}/{parent_id}}")
-    public EntityModel<ParentTask> getParentTask(@PathVariable(name = "parent_id") Long parent_id) throws TaskNotFoundException {
-        ParentTask ptask = userService.getParentTask(parent_id);
+    @GetMapping(path = "{id}/{parent_id}")
+    public EntityModel<ParentTask> getParentTask(@PathVariable(name="id") Long user_id,
+                                                 @PathVariable(name = "parent_id") Long parent_id) throws TaskNotFoundException, UserNotFoundException {
+        ParentTask ptask = userService.getParentTask(user_id, parent_id);
         return parentModelAssembler.toModel(ptask);
     }
 }
