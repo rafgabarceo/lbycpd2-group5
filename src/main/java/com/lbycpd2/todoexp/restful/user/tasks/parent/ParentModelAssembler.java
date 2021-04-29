@@ -17,7 +17,7 @@ public class ParentModelAssembler implements RepresentationModelAssembler<Parent
     public EntityModel<ParentTask> toModel(ParentTask entity) {
         return EntityModel.of(entity,
                 linkTo(methodOn(UserAdminController.class).getUserParentTasks(entity.getParentId())).withSelfRel(),
-                linkTo(methodOn(UserAdminController.class).getParentTask(entity.getUserId(), entity.getParentId())).withRel("ptasks"));
+                linkTo(methodOn(UserAdminController.class).getParentTask(entity.getUserId(), entity.getParentId())).withRel("parent_tasks"));
     }
 
     @Override

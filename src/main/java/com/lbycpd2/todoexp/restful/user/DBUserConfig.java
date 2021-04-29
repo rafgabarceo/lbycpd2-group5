@@ -1,5 +1,6 @@
 package com.lbycpd2.todoexp.restful.user;
 
+import com.lbycpd2.todoexp.restful.user.tasks.child.ChildTask;
 import com.lbycpd2.todoexp.restful.user.tasks.parent.ParentTask;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -26,11 +27,17 @@ public class DBUserConfig {
                     UserRole.USER
             );
 
-            ParentTask parentTask1 = new ParentTask();
-            parentTask1.setUser(user1);
-            parentTask1.setTitle("Hello!");
-            parentTask1.setDescription("World!");
+            ParentTask parentTask1 = new ParentTask("Hello", "World!");
+            ChildTask childTask1 = new ChildTask("Hello",
+                    "World!");
+
+
+            parentTask1.addChildTask(childTask1);
+
+            // parentTask1.setUser(user1);
             user1.addParentTask(parentTask1);
+
+
             userRepository.save(user1);
             userRepository.save(user2);
         };

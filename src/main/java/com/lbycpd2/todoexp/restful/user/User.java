@@ -1,5 +1,6 @@
 package com.lbycpd2.todoexp.restful.user;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.lbycpd2.todoexp.UUIDStringGenerator;
 import com.lbycpd2.todoexp.restful.user.tasks.parent.ParentTask;
 import lombok.*;
@@ -24,6 +25,7 @@ public class User implements UserDetails{
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
+    @Setter(AccessLevel.NONE)
     @Column(name = "user_id")
     private String user_id;
 
@@ -37,7 +39,8 @@ public class User implements UserDetails{
     private Boolean enabled = false;
 
     @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
-    private List<ParentTask> parentTaskList = new ArrayList<>();
+    @JsonManagedReference
+    private List<ParentTask> parentTaskList = new LinkedList<>();
 
     private Double experience = 0.00;
 

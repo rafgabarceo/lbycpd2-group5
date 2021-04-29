@@ -1,5 +1,6 @@
 package com.lbycpd2.todoexp.restful.user.tasks.child;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.lbycpd2.todoexp.restful.user.tasks.Task;
 import com.lbycpd2.todoexp.restful.user.tasks.parent.ParentTask;
 import lombok.*;
@@ -9,10 +10,9 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "child_task")
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
 @ToString
 public class ChildTask extends Task {
 
@@ -22,5 +22,10 @@ public class ChildTask extends Task {
     @Column(name = "child_id") String childId;
 
     @ManyToOne @JoinColumn(name = "parent_id")
+    @JsonBackReference
     private ParentTask parenttask;
+
+    public ChildTask(String title, String description){
+        super(title, description);
+    }
 }
