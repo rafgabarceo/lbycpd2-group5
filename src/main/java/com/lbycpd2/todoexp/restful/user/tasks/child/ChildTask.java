@@ -1,8 +1,10 @@
 package com.lbycpd2.todoexp.restful.user.tasks.child;
 
+import com.lbycpd2.todoexp.UUIDStringGenerator;
 import com.lbycpd2.todoexp.restful.user.tasks.Task;
 import com.lbycpd2.todoexp.restful.user.tasks.parent.ParentTask;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
@@ -15,7 +17,10 @@ import javax.persistence.*;
 @ToString
 public class ChildTask extends Task {
 
-    @Id @GeneratedValue @Column(name = "child_id") Long childId;
+    @Id
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(name = "child_id") String childId;
 
     @ManyToOne @JoinColumn(name = "parent_id")
     private ParentTask parenttask;

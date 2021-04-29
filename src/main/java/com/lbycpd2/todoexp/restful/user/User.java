@@ -1,7 +1,9 @@
 package com.lbycpd2.todoexp.restful.user;
 
+import com.lbycpd2.todoexp.UUIDStringGenerator;
 import com.lbycpd2.todoexp.restful.user.tasks.parent.ParentTask;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -20,9 +22,10 @@ import java.util.*;
 public class User implements UserDetails{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "user_id")
-    private Long user_id;
+    private String user_id;
 
     private String firstName;
     private String lastName;

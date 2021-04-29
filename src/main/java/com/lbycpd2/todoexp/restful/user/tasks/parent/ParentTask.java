@@ -5,10 +5,12 @@
 * */
 package com.lbycpd2.todoexp.restful.user.tasks.parent;
 
+import com.lbycpd2.todoexp.UUIDStringGenerator;
 import com.lbycpd2.todoexp.restful.user.tasks.Task;
 import com.lbycpd2.todoexp.restful.user.tasks.child.ChildTask;
 import com.lbycpd2.todoexp.restful.user.User;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.List;
@@ -22,7 +24,9 @@ import java.util.List;
 @ToString
 public class ParentTask extends Task {
     @Id
-    @GeneratedValue @Column(name = "parent_id") Long parentId;
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(name = "parent_id") String parentId;
 
     @Getter(value = AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
@@ -32,7 +36,7 @@ public class ParentTask extends Task {
     @OneToMany(mappedBy = "parenttask", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<ChildTask> childTasks;
 
-    public Long getUserId(){
+    public String getUserId(){
         return user.getUser_id();
     }
 }

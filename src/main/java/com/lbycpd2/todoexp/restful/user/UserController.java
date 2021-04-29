@@ -35,14 +35,14 @@ public class UserController {
     }
 
     @GetMapping(path="{id}")
-    public EntityModel<User> getUser(@PathVariable(name = "id") Long id){
+    public EntityModel<User> getUser(@PathVariable(name = "id") String id){
         User user = userService.getUser(id);
         return userModelAssembler.toModel(user);
     }
 
 
     @GetMapping(path="{id}/tasks")
-    public CollectionModel<EntityModel<ParentTask>> getUserParentTasks(@PathVariable(name = "id") Long id){
+    public CollectionModel<EntityModel<ParentTask>> getUserParentTasks(@PathVariable(name = "id") String id){
         User currentUser = userService.getUser(id);
         List<EntityModel<ParentTask>> parentTasks = currentUser
                 .getParentTaskList()
@@ -53,8 +53,8 @@ public class UserController {
 
 
     @GetMapping(path = "{id}/{parent_id}")
-    public EntityModel<ParentTask> getParentTask(@PathVariable(name="id") Long user_id,
-                                                 @PathVariable(name = "parent_id") Long parent_id) throws TaskNotFoundException, UserNotFoundException {
+    public EntityModel<ParentTask> getParentTask(@PathVariable(name="id") String user_id,
+                                                 @PathVariable(name = "parent_id") String parent_id) throws TaskNotFoundException, UserNotFoundException {
         ParentTask ptask = userService.getParentTask(user_id, parent_id);
         return parentModelAssembler.toModel(ptask);
     }

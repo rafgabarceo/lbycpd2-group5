@@ -28,7 +28,7 @@ public class UserService implements UserDetailsService {
                 () -> new UsernameNotFoundException("User with email " + email + " not found!"));
     }
 
-    public User getUser(Long userId) throws UsernameNotFoundException {
+    public User getUser(String userId) throws UsernameNotFoundException {
         return userRepository.findById(userId).orElseThrow(
                 () -> new UsernameNotFoundException("User not found")
         );
@@ -42,7 +42,7 @@ public class UserService implements UserDetailsService {
         return parentRepository.findAll();
     }
 
-    public ParentTask getParentTask(Long userId, Long parentId) throws TaskNotFoundException, UserNotFoundException {
+    public ParentTask getParentTask(String userId, String parentId) throws TaskNotFoundException, UserNotFoundException {
         Optional<User> user = userRepository.findById(userId);
         if(user.isEmpty()){
             throw new UserNotFoundException("User not found");
