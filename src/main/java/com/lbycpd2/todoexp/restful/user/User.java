@@ -31,6 +31,7 @@ public class User implements UserDetails{
     private String lastName;
     private String password;
     private String email;
+    private String username;
     private UserRole userRole;
     private Boolean locked = false;
     private Boolean enabled = false;

@@ -1,6 +1,5 @@
 package com.lbycpd2.todoexp.restful.user.tasks.child;
 
-import com.lbycpd2.todoexp.UUIDStringGenerator;
 import com.lbycpd2.todoexp.restful.user.tasks.Task;
 import com.lbycpd2.todoexp.restful.user.tasks.parent.ParentTask;
 import lombok.*;

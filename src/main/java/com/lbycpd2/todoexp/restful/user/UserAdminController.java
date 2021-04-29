@@ -10,7 +10,6 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -19,11 +18,13 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RestController
 @AllArgsConstructor
 @RequestMapping(path = "/users")
-public class UserController {
+public class UserAdminController {
 
     private final UserService userService;
     private final UserModelAssembler userModelAssembler;
     private final ParentModelAssembler parentModelAssembler;
+
+    // admin facing
 
     @GetMapping
     public CollectionModel<EntityModel<User>> getAllUsers(){
@@ -58,6 +59,9 @@ public class UserController {
         ParentTask ptask = userService.getParentTask(user_id, parent_id);
         return parentModelAssembler.toModel(ptask);
     }
+
+    // admin facing
+
 }
 
 
