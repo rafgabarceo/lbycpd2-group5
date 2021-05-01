@@ -1,24 +1,28 @@
-package com.lbycpd2.todoexp.restful.user;
+package com.lbycpd2.todoexp;
 
+import com.lbycpd2.todoexp.restful.user.User;
+import com.lbycpd2.todoexp.restful.user.UserRepository;
+import com.lbycpd2.todoexp.restful.user.UserService;
 import com.lbycpd2.todoexp.restful.user.tasks.child.ChildTask;
 import com.lbycpd2.todoexp.restful.user.tasks.parent.ParentTask;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@AllArgsConstructor
 public class DBUserConfig {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
     @Bean
     CommandLineRunner commandLineRunner(UserRepository userRepository){
         return args -> {
             User user1 = new User(
                     "USER",
-                    "arceo.rafaelgabriel@outlook.com",
+                    "arceo.rafaelgabriel@gmail.com",
                     "Rafael Gabriel",
                     "Arceo",
                     "chocolate"

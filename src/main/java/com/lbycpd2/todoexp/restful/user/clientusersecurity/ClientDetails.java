@@ -1,4 +1,4 @@
-package com.lbycpd2.todoexp.restful;
+package com.lbycpd2.todoexp.restful.user.clientusersecurity;
 
 import com.lbycpd2.todoexp.restful.user.User;
 import lombok.NoArgsConstructor;
@@ -62,6 +62,6 @@ public class ClientDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled;
     }
 }

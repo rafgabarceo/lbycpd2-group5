@@ -32,7 +32,7 @@ public class User {
     private String email;
     private String authorities;
     private Boolean locked = false;
-    private Boolean enabled = true;
+    private Boolean enabled = false;
 
     @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
     @JsonManagedReference

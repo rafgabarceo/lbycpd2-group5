@@ -1,4 +1,4 @@
-package com.lbycpd2.todoexp.restful;
+package com.lbycpd2.todoexp.restful.user.clientusersecurity;
 
 import com.lbycpd2.todoexp.restful.user.User;
 import com.lbycpd2.todoexp.restful.user.UserRepository;

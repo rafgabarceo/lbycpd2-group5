@@ -1,4 +1,4 @@
-package com.lbycpd2.todoexp.restful.user.registration;
+package com.lbycpd2.todoexp.restful.user.registration.confirmationtoken;
 
 import com.lbycpd2.todoexp.restful.user.User;
 import lombok.*;
@@ -32,7 +32,7 @@ public class ConfirmationToken {
     public ConfirmationToken(User user){
         this.user = user;
         this.createdDate = LocalDate.now();
-        this.confirmationToken = UUID.randomUUID().toString();
+        this.confirmationToken = UUID.randomUUID().toString().replaceAll("-","_");
     }
 
 }

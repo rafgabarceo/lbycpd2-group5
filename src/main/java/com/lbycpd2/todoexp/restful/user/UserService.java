@@ -1,37 +1,33 @@
 package com.lbycpd2.todoexp.restful.user;
 
+import com.lbycpd2.todoexp.restful.security.email.EmailSenderService;
 import com.lbycpd2.todoexp.restful.user.exceptions.TaskNotFoundException;
 import com.lbycpd2.todoexp.restful.user.exceptions.UserAlreadyInDatabaseException;
 import com.lbycpd2.todoexp.restful.user.exceptions.UserNotFoundException;
+import com.lbycpd2.todoexp.restful.user.registration.confirmationtoken.ConfirmationToken;
+import com.lbycpd2.todoexp.restful.user.registration.confirmationtoken.ConfirmationTokenService;
 import com.lbycpd2.todoexp.restful.user.tasks.child.ChildRepository;
 import com.lbycpd2.todoexp.restful.user.tasks.child.ChildTask;
 import com.lbycpd2.todoexp.restful.user.tasks.parent.ParentTask;
 import com.lbycpd2.todoexp.restful.user.tasks.parent.ParentTaskRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.Transient;
+import javax.mail.MessagingException;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class UserService {
-
-    @Autowired
-    UserRepository userRepository;
-
-    @Autowired
-    ParentTaskRepository parentRepository;
-
+    public final UserRepository userRepository;
+    public final ParentTaskRepository parentRepository;
     private final ChildRepository childRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
+    private final PasswordEncoder passwordEncoder;
+    private final ConfirmationTokenService confirmationTokenService;
+    public final EmailSenderService emailSenderService;
 
     public User getUser(String userId) throws UsernameNotFoundException {
         return userRepository.findById(userId).orElseThrow(
@@ -39,12 +35,18 @@ public class UserService {
         );
     }
 
-    public void addNewUser(User user) throws UserAlreadyInDatabaseException {
+    public void addNewUser(User user) throws UserAlreadyInDatabaseException, MessagingException {
         if(userRepository.findUserByEmail(user.getEmail()).isPresent()){
             throw new UserAlreadyInDatabaseException("User with email" + user.getEmail() + " already exists.");
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
+
+        // generate confirmation token
+        ConfirmationToken confirmationToken = new ConfirmationToken(user);
+        confirmationTokenService.saveConfirmationToken(confirmationToken);
+
+        emailSenderService.sendConfirmationEmail(user.getEmail(), confirmationToken.getConfirmationToken());
     }
 
     public List<User> getUsers(){
@@ -84,6 +86,10 @@ public class UserService {
         }
 
         return childTask.get();
+    }
+
+    public void updateUser(User user){
+        userRepository.save(user);
     }
 
     public boolean checkIfEmailTaken(String email){

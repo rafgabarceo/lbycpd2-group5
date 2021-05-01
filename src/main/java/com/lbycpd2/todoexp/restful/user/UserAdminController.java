@@ -1,7 +1,6 @@
 package com.lbycpd2.todoexp.restful.user;
 
 import com.lbycpd2.todoexp.restful.user.exceptions.TaskNotFoundException;
-import com.lbycpd2.todoexp.restful.user.exceptions.UserAlreadyInDatabaseException;
 import com.lbycpd2.todoexp.restful.user.exceptions.UserNotFoundException;
 import com.lbycpd2.todoexp.restful.user.tasks.child.ChildModelAssembler;
 import com.lbycpd2.todoexp.restful.user.tasks.child.ChildTask;
@@ -11,7 +10,6 @@ import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,6 +20,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RestController
 @AllArgsConstructor
 @RequestMapping(path = "/users")
+@CrossOrigin(origins = {"*"})
 public class UserAdminController {
 
     private final UserService userService;
@@ -87,7 +86,10 @@ public class UserAdminController {
         ChildTask childTask = userService.getChildTask(user_id, parent_id, child_id);
         return childModelAssembler.toModel(childTask);
     }
+
     // admin facing
 }
+
+
 
 
