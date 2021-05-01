@@ -1,14 +1,14 @@
 package com.lbycpd2.todoexp.restful.user;
 
 import com.lbycpd2.todoexp.restful.user.exceptions.TaskNotFoundException;
+import com.lbycpd2.todoexp.restful.user.exceptions.UserAlreadyInDatabaseException;
 import com.lbycpd2.todoexp.restful.user.exceptions.UserNotFoundException;
 import com.lbycpd2.todoexp.restful.user.tasks.child.ChildRepository;
 import com.lbycpd2.todoexp.restful.user.tasks.child.ChildTask;
 import com.lbycpd2.todoexp.restful.user.tasks.parent.ParentTask;
 import com.lbycpd2.todoexp.restful.user.tasks.parent.ParentTaskRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -17,22 +17,27 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class UserService implements UserDetailsService {
+public class UserService {
 
-    private final UserRepository userRepository;
-    private final ParentTaskRepository parentRepository;
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    ParentTaskRepository parentRepository;
+
     private final ChildRepository childRepository;
-
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return userRepository.findUserByEmail(email).orElseThrow(
-                () -> new UsernameNotFoundException("User with email " + email + " not found!"));
-    }
 
     public User getUser(String userId) throws UsernameNotFoundException {
         return userRepository.findById(userId).orElseThrow(
                 () -> new UsernameNotFoundException("User not found")
         );
+    }
+
+    public void addNewUser(User user) throws UserAlreadyInDatabaseException {
+        if(userRepository.findUserByEmail(user.getEmail()).isPresent()){
+            throw new UserAlreadyInDatabaseException("User with email" + user.getEmail() + " already exists.");
+        }
+        userRepository.save(user);
     }
 
     public List<User> getUsers(){

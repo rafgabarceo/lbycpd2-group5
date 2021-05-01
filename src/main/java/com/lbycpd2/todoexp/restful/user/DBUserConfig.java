@@ -15,31 +15,40 @@ public class DBUserConfig {
             User user1 = new User(
                     "Gab",
                     "Arceo",
-                    "nice@nice.com",
+                    "nice0@nice.com",
                     "chocolate",
-                    UserRole.USER
+                    "USER,ADMIN"
             );
+            
             User user2 = new User(
                     "Lauren",
                     "Sason",
-                    "nice@nice.com",
+                    "nice1@nice.com",
                     "chocolate",
-                    UserRole.USER
+                    "USER"
             );
 
-            ParentTask parentTask1 = new ParentTask("Hello", "World!");
-            ChildTask childTask1 = new ChildTask("Hello",
-                    "World!");
+            User admin = new User(
+                    "admin",
+                    "admin",
+                    "admin@admin.com",
+                    "admin",
+                    "USER,ADMIN"
+            );
+
+            ParentTask parentTask1 = new ParentTask("Parent", "This is a parent task");
+            ChildTask childTask1 = new ChildTask("Child",
+                    "This is a child task");
 
 
             parentTask1.addChildTask(childTask1);
 
-            // parentTask1.setUser(user1);
             user1.addParentTask(parentTask1);
 
 
             userRepository.save(user1);
             userRepository.save(user2);
+            userRepository.save(admin);
         };
     }
 }

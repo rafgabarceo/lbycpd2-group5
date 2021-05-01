@@ -1,6 +1,7 @@
 package com.lbycpd2.todoexp.restful.user;
 
 import com.lbycpd2.todoexp.restful.user.exceptions.TaskNotFoundException;
+import com.lbycpd2.todoexp.restful.user.exceptions.UserAlreadyInDatabaseException;
 import com.lbycpd2.todoexp.restful.user.exceptions.UserNotFoundException;
 import com.lbycpd2.todoexp.restful.user.tasks.child.ChildModelAssembler;
 import com.lbycpd2.todoexp.restful.user.tasks.child.ChildTask;
@@ -10,9 +11,8 @@ import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -65,7 +65,6 @@ public class UserAdminController {
         return parentModelAssembler.toModel(ptask);
     }
 
-    //TODO: GET CHILDREN TASKS
     @SneakyThrows
     @GetMapping(path ="{id}/{parent_id}/subtasks")
     public CollectionModel<EntityModel<ChildTask>> getChildTasks(@PathVariable(name = "id") String user_id,
@@ -88,19 +87,7 @@ public class UserAdminController {
         ChildTask childTask = userService.getChildTask(user_id, parent_id, child_id);
         return childModelAssembler.toModel(childTask);
     }
-
-    //TODO: GET SPECIFIC CHILD TASK
-
-    //TODO: ADD USER
-
-    //TODO: ADD TASK TO USER
-
-    //TODO: EDIT USER
-
-    //TODO: EDIT TASK OF USER
-
     // admin facing
-
 }
 
 

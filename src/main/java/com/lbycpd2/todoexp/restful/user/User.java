@@ -1,14 +1,9 @@
 package com.lbycpd2.todoexp.restful.user;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.lbycpd2.todoexp.UUIDStringGenerator;
 import com.lbycpd2.todoexp.restful.user.tasks.parent.ParentTask;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.hateoas.RepresentationModel;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.*;
@@ -20,7 +15,7 @@ import java.util.*;
 @EqualsAndHashCode
 @NoArgsConstructor
 @ToString
-public class User implements UserDetails{
+public class User {
 
     @Id
     @GeneratedValue(generator = "uuid2")
@@ -33,10 +28,9 @@ public class User implements UserDetails{
     private String lastName;
     private String password;
     private String email;
-    private String username;
-    private UserRole userRole;
+    private String authorities;
     private Boolean locked = false;
-    private Boolean enabled = false;
+    private Boolean enabled = true;
 
     @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
     @JsonManagedReference
@@ -44,23 +38,12 @@ public class User implements UserDetails{
 
     private Double experience = 0.00;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(userRole.name());
-        return Collections.singletonList(authority);
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
-    }
-
-    public User(String firstName, String lastName, String email, String password, UserRole userRole) {
+    public User(String firstName, String lastName, String email, String password, String authorities) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
         this.email = email;
-        this.userRole = userRole;
+        this.authorities = authorities;
         this.experience = 0.00;
     }
 
@@ -70,23 +53,4 @@ public class User implements UserDetails{
         this.parentTaskList.add(parentTask);
     }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return !locked;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return enabled;
-    }
 }
