@@ -23,14 +23,6 @@ public class DBUserConfig {
                     "Arceo",
                     "chocolate"
             );
-            
-            User user2 = new User(
-                    "USER",
-                    "lauresason@gmail.com",
-                    "Lauren",
-                    "Sason",
-                    "chocolate"
-            );
 
             User admin = new User(
                     "USER,ADMIN",
@@ -50,7 +42,6 @@ public class DBUserConfig {
             user1.addParentTask(parentTask1);
 
             userService.addNewUser(user1);
-            userService.addNewUser(user2);
             userService.addNewUser(admin);
         };
     }
