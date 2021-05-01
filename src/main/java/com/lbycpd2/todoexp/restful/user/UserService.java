@@ -10,8 +10,10 @@ import com.lbycpd2.todoexp.restful.user.tasks.parent.ParentTaskRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.Transient;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +29,10 @@ public class UserService {
 
     private final ChildRepository childRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+
     public User getUser(String userId) throws UsernameNotFoundException {
         return userRepository.findById(userId).orElseThrow(
                 () -> new UsernameNotFoundException("User not found")
@@ -37,6 +43,7 @@ public class UserService {
         if(userRepository.findUserByEmail(user.getEmail()).isPresent()){
             throw new UserAlreadyInDatabaseException("User with email" + user.getEmail() + " already exists.");
         }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
 
@@ -78,4 +85,11 @@ public class UserService {
 
         return childTask.get();
     }
+
+    public boolean checkIfEmailTaken(String email){
+        return userRepository.findUserByEmail(email).isPresent();
+    }
+
+    // For email
+
 }

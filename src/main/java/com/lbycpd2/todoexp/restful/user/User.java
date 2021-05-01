@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.lbycpd2.todoexp.restful.user.tasks.parent.ParentTask;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.util.*;
@@ -38,7 +40,7 @@ public class User {
 
     private Double experience = 0.00;
 
-    public User(String firstName, String lastName, String email, String password, String authorities) {
+    public User(String authorities, String email, String firstName, String lastName, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;

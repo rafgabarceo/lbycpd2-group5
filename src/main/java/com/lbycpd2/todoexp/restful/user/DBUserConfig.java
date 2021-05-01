@@ -2,6 +2,7 @@ package com.lbycpd2.todoexp.restful.user;
 
 import com.lbycpd2.todoexp.restful.user.tasks.child.ChildTask;
 import com.lbycpd2.todoexp.restful.user.tasks.parent.ParentTask;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,31 +10,34 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class DBUserConfig {
 
+    @Autowired
+    private UserService userService;
+
     @Bean
     CommandLineRunner commandLineRunner(UserRepository userRepository){
         return args -> {
             User user1 = new User(
-                    "Gab",
+                    "USER",
+                    "arceo.rafaelgabriel@outlook.com",
+                    "Rafael Gabriel",
                     "Arceo",
-                    "nice0@nice.com",
-                    "chocolate",
-                    "USER,ADMIN"
+                    "chocolate"
             );
             
             User user2 = new User(
+                    "USER",
+                    "lauresason@gmail.com",
                     "Lauren",
                     "Sason",
-                    "nice1@nice.com",
-                    "chocolate",
-                    "USER"
+                    "chocolate"
             );
 
             User admin = new User(
-                    "admin",
-                    "admin",
+                    "USER,ADMIN",
                     "admin@admin.com",
                     "admin",
-                    "USER,ADMIN"
+                    "admin",
+                    "admin"
             );
 
             ParentTask parentTask1 = new ParentTask("Parent", "This is a parent task");
@@ -45,10 +49,9 @@ public class DBUserConfig {
 
             user1.addParentTask(parentTask1);
 
-
-            userRepository.save(user1);
-            userRepository.save(user2);
-            userRepository.save(admin);
+            userService.addNewUser(user1);
+            userService.addNewUser(user2);
+            userService.addNewUser(admin);
         };
     }
 }
