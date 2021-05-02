@@ -35,6 +35,12 @@ public class UserService {
         );
     }
 
+    public User getUserByEmail(String email){
+        return userRepository.findUserByEmail(email).orElseThrow(
+                () -> new UsernameNotFoundException("User not found")
+        );
+    }
+
     public void addNewUser(User user) throws UserAlreadyInDatabaseException, MessagingException {
         if(userRepository.findUserByEmail(user.getEmail()).isPresent()){
             throw new UserAlreadyInDatabaseException("User with email" + user.getEmail() + " already exists.");
