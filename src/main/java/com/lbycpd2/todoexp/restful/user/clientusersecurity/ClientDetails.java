@@ -17,14 +17,12 @@ public class ClientDetails implements UserDetails {
     private String username;
     private String password;
     private boolean enabled;
-    private boolean locked;
     private List<GrantedAuthority> authorities;
 
     public ClientDetails(User user){
         this.username = user.getEmail();
         this.password = user.getPassword();
         this.enabled = user.getEnabled();
-        this.locked = user.getLocked();
         this.authorities = Arrays.stream(user.getAuthorities().split(","))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
