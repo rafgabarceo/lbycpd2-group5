@@ -22,7 +22,7 @@ public class DBUserConfig {
         return args -> {
             User user1 = new User(
                     "USER",
-                    "arceo.rafaelgabriel@gmail.com",
+                    "rafael_gabriel_arceo@dlsu.edu.ph",
                     "Rafael Gabriel",
                     "Arceo",
                     "chocolate"

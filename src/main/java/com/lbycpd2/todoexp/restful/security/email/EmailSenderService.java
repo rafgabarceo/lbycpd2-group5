@@ -1,7 +1,6 @@
 package com.lbycpd2.todoexp.restful.security.email;
 
 import lombok.AllArgsConstructor;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -28,8 +27,7 @@ public class EmailSenderService {
         helper.setFrom("noreply@todoexp.com");
         helper.setTo(userMail);
         helper.setSubject("Confirmation email for todoexp");
-        helper.setText("Here is your confirmation link: <br/>" +
-                "<a href=\"localhost:8080/register/confirm/" + token + "\"> Confirm email </a>", true);
+        helper.setText("Here is your confirmation link: localhost:8080/register/confirm/" + token, true);
 
         sendEmail(msg);
     }
