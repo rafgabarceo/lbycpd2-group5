@@ -10,6 +10,8 @@ import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -87,6 +89,27 @@ public class UserAdminController {
         return childModelAssembler.toModel(childTask);
     }
 
+    @PostMapping(path = "/{id}/addparent")
+    public ResponseEntity<String> addParentTask(@RequestBody ParentTask parentTask,
+                                                 @PathVariable(name = "id") String user_id){
+        try {
+            userService.addParentTask(userService.getUser(user_id), parentTask);
+            return new ResponseEntity<>("Parent task added!", HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>("Unable to add parent task", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping(path = "/{id}/{parent_id}/setStatus")
+    public ResponseEntity<String> setStatus(@PathVariable(name = "id") String user_id,
+                                            @PathVariable(name = "parent_id") String parent_id){
+        try {
+            userService.setStatus(userService.getUser(user_id), userService.getParentTask(user_id, parent_id));
+            return new ResponseEntity<>("Task status changed", HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>("Task status error: unable to change! Maybe task no longer exists?", HttpStatus.CONFLICT);
+        }
+    }
     // admin facing
 }
 

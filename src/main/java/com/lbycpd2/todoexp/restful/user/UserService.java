@@ -76,6 +76,22 @@ public class UserService {
         return parentTask.get();
     }
 
+    public void addParentTask(User user, ParentTask parentTask){
+        try {
+            user.addParentTask(parentTask);
+            updateUser(user);
+        } catch (Exception e){
+            System.out.println("Unable to add user with exception" + e.getMessage());
+        }
+
+    }
+
+    public void setStatus(User user, ParentTask parentTask){
+        user.getParentTaskList().get(user.getParentTaskList()
+        .indexOf(parentTask)).setStatus(!parentTask.isStatus());
+        userRepository.save(user);
+    }
+
     public List<ChildTask> getChildTasks(String userId, String parentId) throws UserNotFoundException, TaskNotFoundException {
         ParentTask parentTask = getParentTask(userId, parentId);
         return parentTask.getChildTasks();
