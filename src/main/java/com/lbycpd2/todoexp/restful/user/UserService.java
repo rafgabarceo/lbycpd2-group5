@@ -103,13 +103,31 @@ public class UserService {
     }
 
     public void setTitle(User user, ParentTask parentTask, String title){
+        if(title.equals(parentTask.getTitle()) || title.isBlank()){
+            return;
+        }
+
         user.getParentTaskList().get(user.getParentTaskList().indexOf(parentTask)).setTitle(title);
-        userRepository.save(user);
+        updateUser(user);
     }
 
     public void setDescription(User user, ParentTask parentTask, String description){
+        if(description.equals(parentTask.getDescription()) || description.isBlank()){
+            return;
+        }
+
         user.getParentTaskList().get(user.getParentTaskList().indexOf(parentTask)).setTitle(description);
-        userRepository.save(user);
+        updateUser(user);
+    }
+
+    public void deleteParentTask(User user, ParentTask parentTask){
+        user.getParentTaskList().remove(parentTask);
+        updateUser(user);
+    }
+
+    public void deleteChildTask(User user, ParentTask parentTask, ChildTask childTask){
+        user.getParentTaskList().get(user.getParentTaskList().indexOf(parentTask)).getChildTasks().remove(childTask);
+        updateUser(user);
     }
 
     public List<ChildTask> getChildTasks(String userId, String parentId) throws UserNotFoundException, TaskNotFoundException {

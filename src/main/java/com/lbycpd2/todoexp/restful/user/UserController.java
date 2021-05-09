@@ -125,6 +125,26 @@ public class UserController {
         }
     }
 
+    @PutMapping(path = "{id}/{parent_id}/")
+    public ResponseEntity<String> updateParent(@PathVariable(name = "id") String user_id,
+                                           @PathVariable(name = "parent_id") String parent_id,
+                                           @RequestBody ParentTask parentTask) {
+        try {
+            userService.setTitle(userService.getUser(user_id),userService.getParentTask(user_id, parent_id), parentTask.getTitle());
+            userService.setDescription(userService.getUser(user_id),userService.getParentTask(user_id, parent_id), parentTask.getDescription());
+            return new ResponseEntity<>("Updated!", HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>("Unable to update", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping(path = "{id}/{parent_id}")
+    public ResponseEntity<String> deleteParent(@PathVariable(name = "id") String user_id,
+                                               @PathVariable(name = "parent_id") String parent_id) throws UserNotFoundException, TaskNotFoundException {
+        userService.deleteParentTask(userService.getUser(user_id), userService.getParentTask(user_id, parent_id));
+        return new ResponseEntity<String>("Task deleted", HttpStatus.OK);
+    }
+
     @PostMapping(path = "{id}/{parent_id}/addchild")
     public ResponseEntity<String> addchildTask(@RequestBody ChildTask childTask,
                                                 @PathVariable(name = "id") String user_id,
