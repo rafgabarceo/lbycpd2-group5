@@ -23,7 +23,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @AllArgsConstructor
 @RequestMapping(path = "/users")
 @CrossOrigin(origins = {"*"})
-public class UserAdminController {
+public class UserController {
 
     private final UserService userService;
     private final UserModelAssembler userModelAssembler;
@@ -112,7 +112,7 @@ public class UserAdminController {
     }
 
     @PutMapping(path = "{id}/{parent_id}/setDueDate")
-        public ResponseEntity<String> setDueDate(@PathVariable(name = "id") String user_id,
+    public ResponseEntity<String> setDueDate(@PathVariable(name = "id") String user_id,
                                                  @PathVariable(name = "parent_id") String parent_id,
                                                  @RequestBody String dateTime){
         try {
@@ -122,6 +122,18 @@ public class UserAdminController {
             return new ResponseEntity<>("Invalid user", HttpStatus.BAD_REQUEST);
         } catch (TaskNotFoundException e) {
             return new ResponseEntity<>("Invalid task", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping(path = "{id}/{parent_id}/addchild")
+    public ResponseEntity<String> addchildTask(@RequestBody ChildTask childTask,
+                                                @PathVariable(name = "id") String user_id,
+                                               @PathVariable(name = "parent_id") String parent_id){
+        try {
+            userService.addChildTask(userService.getUser(user_id), userService.getParentTask(user_id, parent_id), childTask);
+            return new ResponseEntity<>("Child task added!", HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>("Unable to add child task", HttpStatus.BAD_REQUEST);
         }
     }
     // admin facing

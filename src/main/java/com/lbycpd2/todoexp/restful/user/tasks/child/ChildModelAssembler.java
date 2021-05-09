@@ -1,6 +1,6 @@
 package com.lbycpd2.todoexp.restful.user.tasks.child;
 
-import com.lbycpd2.todoexp.restful.user.UserAdminController;
+import com.lbycpd2.todoexp.restful.user.UserController;
 import lombok.SneakyThrows;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
@@ -15,9 +15,9 @@ public class ChildModelAssembler implements RepresentationModelAssembler<ChildTa
     @Override
     public EntityModel<ChildTask> toModel(ChildTask entity) {
         return EntityModel.of(entity,
-                linkTo(methodOn(UserAdminController.class).getChildTasks(entity.getParenttask().getUserId(),
+                linkTo(methodOn(UserController.class).getChildTasks(entity.getParenttask().getUserId(),
                         entity.childId)).withSelfRel(),
-                linkTo(methodOn(UserAdminController.class).getChildTask(entity.getParenttask().getUserId(),
+                linkTo(methodOn(UserController.class).getChildTask(entity.getParenttask().getUserId(),
                         entity.getParenttask().getParentId(),
                         entity.getChildId())).withRel("children_tasks"));
     }

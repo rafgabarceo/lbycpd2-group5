@@ -1,6 +1,6 @@
 package com.lbycpd2.todoexp.restful.user.tasks.parent;
 
-import com.lbycpd2.todoexp.restful.user.UserAdminController;
+import com.lbycpd2.todoexp.restful.user.UserController;
 import lombok.SneakyThrows;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
@@ -14,9 +14,9 @@ public class ParentModelAssembler implements RepresentationModelAssembler<Parent
     @Override
     public EntityModel<ParentTask> toModel(ParentTask entity) {
         return EntityModel.of(entity,
-                linkTo(methodOn(UserAdminController.class).getParentTask(entity.getUserId(), entity.parentId)).withSelfRel(),
-                linkTo(methodOn(UserAdminController.class).getUserParentTasks(entity.getUserId())).withRel("tasks"),
-                linkTo(methodOn(UserAdminController.class).getUser(entity.getUserId())).withRel("owned_by")
+                linkTo(methodOn(UserController.class).getParentTask(entity.getUserId(), entity.parentId)).withSelfRel(),
+                linkTo(methodOn(UserController.class).getUserParentTasks(entity.getUserId())).withRel("tasks"),
+                linkTo(methodOn(UserController.class).getUser(entity.getUserId())).withRel("owned_by")
                 );
     }
 }

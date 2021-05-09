@@ -57,5 +57,4 @@ public class User {
         parentTask.setUser(this);
         this.parentTaskList.add(parentTask);
     }
-
 }

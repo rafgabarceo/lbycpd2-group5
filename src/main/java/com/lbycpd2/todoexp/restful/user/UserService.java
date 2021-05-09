@@ -99,14 +99,17 @@ public class UserService {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime dateTime = LocalDateTime.parse(date, dateTimeFormatter);
         user.getParentTaskList().get(user.getParentTaskList().indexOf(parentTask)).setDueDate(dateTime);
+        userRepository.save(user);
     }
 
     public void setTitle(User user, ParentTask parentTask, String title){
         user.getParentTaskList().get(user.getParentTaskList().indexOf(parentTask)).setTitle(title);
+        userRepository.save(user);
     }
 
     public void setDescription(User user, ParentTask parentTask, String description){
         user.getParentTaskList().get(user.getParentTaskList().indexOf(parentTask)).setTitle(description);
+        userRepository.save(user);
     }
 
     public List<ChildTask> getChildTasks(String userId, String parentId) throws UserNotFoundException, TaskNotFoundException {
@@ -125,6 +128,15 @@ public class UserService {
         }
 
         return childTask.get();
+    }
+
+    public void addChildTask(User user, ParentTask parentTask, ChildTask childTask){
+        try {
+            parentTask.addChildTask(childTask);
+            updateUser(user);
+        } catch (Exception e){
+            System.out.println("Unable to add user with exception" + e.getMessage());
+        }
     }
 
     public void updateUser(User user){
