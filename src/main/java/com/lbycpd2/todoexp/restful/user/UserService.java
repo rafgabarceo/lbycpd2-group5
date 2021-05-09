@@ -101,6 +101,14 @@ public class UserService {
         user.getParentTaskList().get(user.getParentTaskList().indexOf(parentTask)).setDueDate(dateTime);
     }
 
+    public void setTitle(User user, ParentTask parentTask, String title){
+        user.getParentTaskList().get(user.getParentTaskList().indexOf(parentTask)).setTitle(title);
+    }
+
+    public void setDescription(User user, ParentTask parentTask, String description){
+        user.getParentTaskList().get(user.getParentTaskList().indexOf(parentTask)).setTitle(description);
+    }
+
     public List<ChildTask> getChildTasks(String userId, String parentId) throws UserNotFoundException, TaskNotFoundException {
         ParentTask parentTask = getParentTask(userId, parentId);
         return parentTask.getChildTasks();
