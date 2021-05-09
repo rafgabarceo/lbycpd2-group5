@@ -1,6 +1,7 @@
 package com.lbycpd2.todoexp.restful.user;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.lbycpd2.todoexp.restful.user.badge.Badge;
 import com.lbycpd2.todoexp.restful.user.tasks.parent.ParentTask;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -35,6 +36,10 @@ public class User {
     @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<ParentTask> parentTaskList = new LinkedList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Badge> userBadges = new LinkedList<>();
 
     private Double experience = 0.00;
 
