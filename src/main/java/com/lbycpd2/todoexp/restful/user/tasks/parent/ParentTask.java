@@ -7,7 +7,6 @@ package com.lbycpd2.todoexp.restful.user.tasks.parent;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.lbycpd2.todoexp.UUIDStringGenerator;
 import com.lbycpd2.todoexp.restful.user.tasks.Task;
 import com.lbycpd2.todoexp.restful.user.tasks.child.ChildTask;
 import com.lbycpd2.todoexp.restful.user.User;
@@ -15,7 +14,6 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 

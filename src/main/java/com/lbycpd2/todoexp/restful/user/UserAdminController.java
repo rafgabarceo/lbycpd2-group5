@@ -110,6 +110,20 @@ public class UserAdminController {
             return new ResponseEntity<>("Task status error: unable to change! Maybe task no longer exists?", HttpStatus.CONFLICT);
         }
     }
+
+    @PutMapping(path = "{id}/{parent_id}/setDueDate")
+        public ResponseEntity<String> setDueDate(@PathVariable(name = "id") String user_id,
+                                                 @PathVariable(name = "parent_id") String parent_id,
+                                                 @RequestBody String dateTime){
+        try {
+            userService.setDeadline(userService.getUser(user_id), userService.getParentTask(user_id, parent_id), dateTime);
+            return new ResponseEntity<>("Due date successfully changed.", HttpStatus.OK);
+        } catch (UserNotFoundException e) {
+            return new ResponseEntity<>("Invalid user", HttpStatus.BAD_REQUEST);
+        } catch (TaskNotFoundException e) {
+            return new ResponseEntity<>("Invalid task", HttpStatus.BAD_REQUEST);
+        }
+    }
     // admin facing
 }
 

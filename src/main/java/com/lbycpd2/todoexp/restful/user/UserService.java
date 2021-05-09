@@ -16,6 +16,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -90,6 +93,12 @@ public class UserService {
         user.getParentTaskList().get(user.getParentTaskList()
         .indexOf(parentTask)).setStatus(!parentTask.isStatus());
         userRepository.save(user);
+    }
+
+    public void setDeadline(User user, ParentTask parentTask, String date){
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime dateTime = LocalDateTime.parse(date, dateTimeFormatter);
+        user.getParentTaskList().get(user.getParentTaskList().indexOf(parentTask)).setDueDate(dateTime);
     }
 
     public List<ChildTask> getChildTasks(String userId, String parentId) throws UserNotFoundException, TaskNotFoundException {
