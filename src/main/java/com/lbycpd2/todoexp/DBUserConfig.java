@@ -6,7 +6,6 @@ import com.lbycpd2.todoexp.restful.user.UserService;
 import com.lbycpd2.todoexp.restful.user.tasks.child.ChildTask;
 import com.lbycpd2.todoexp.restful.user.tasks.parent.ParentTask;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,6 +27,22 @@ public class DBUserConfig {
                     "chocolate"
             );
 
+            User user2 = new User(
+                    "USER,ADMIN",
+                    "daine_jadman@dlsu.edu.ph",
+                    "Daine",
+                    "Jadman",
+                    "dainejadman"
+            );
+
+            User user3 = new User(
+                    "USER,ADMIN",
+                    "justine_louisse_juan@dlsu.edu.ph",
+                    "Justine",
+                    "Juan",
+                    "justinejuan"
+            );
+
             User admin = new User(
                     "USER,ADMIN",
                     "admin@admin.com",
@@ -46,6 +61,8 @@ public class DBUserConfig {
             user1.addParentTask(parentTask1);
 
             userService.addNewUser(user1);
+            userService.addNewUser(user2);
+            userService.addNewUser(user3);
             userService.addNewUser(admin);
         };
     }
