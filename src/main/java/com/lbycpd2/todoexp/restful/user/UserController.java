@@ -47,6 +47,12 @@ public class UserController {
         return userModelAssembler.toModel(user);
     }
 
+    @PostMapping(path = "{id}")
+    public ResponseEntity<String> updateUser(@PathVariable(name = "id") String id,
+                                             @RequestBody User user){
+        return null;
+    }
+
 
     @GetMapping(path="{id}/tasks")
     public CollectionModel<EntityModel<ParentTask>> getUserParentTasks(@PathVariable(name = "id") String id){

@@ -16,7 +16,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -56,6 +55,32 @@ public class UserService {
         confirmationTokenService.saveConfirmationToken(confirmationToken);
 
         emailSenderService.sendConfirmationEmail(user.getEmail(), confirmationToken.getConfirmationToken());
+    }
+
+    public void editUserEmail(User user, String email) throws UserAlreadyInDatabaseException {
+        Optional<User> currentUser = userRepository.findById(user.getUser_id());
+        if(userRepository.findUserByEmail(email).isPresent()){
+            throw new UserAlreadyInDatabaseException("Email is already taken.");
+        }
+        currentUser.ifPresent(value -> {
+            value.setEmail(email);
+            updateUser(value);
+        });
+    }
+
+    public void editUserFLName(User user, String firstName, String lastName){
+        Optional<User> currentUser = userRepository.findById(user.getUser_id());
+        currentUser.ifPresent(value -> {
+            if(!firstName.isBlank()){
+                value.setFirstName(firstName);
+            }
+
+            if(!lastName.isBlank()){
+                value.setLastName(lastName);
+            }
+
+            updateUser(value);
+        });
     }
 
     public List<User> getUsers(){
