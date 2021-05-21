@@ -51,6 +51,11 @@ public class DBUserConfig {
                     "admin"
             );
 
+            user1.setEnabled(true);
+            user2.setEnabled(true);
+            user3.setEnabled(true);
+            admin.setEnabled(true);
+
             ParentTask parentTask1 = new ParentTask("Parent", "This is a parent task");
             ChildTask childTask1 = new ChildTask("Child",
                     "This is a child task");

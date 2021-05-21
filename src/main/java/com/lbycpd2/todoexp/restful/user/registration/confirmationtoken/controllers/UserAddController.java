@@ -15,6 +15,7 @@ import javax.mail.MessagingException;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin(origins = {"*"})
 @RequestMapping(path = "/register")
 @AllArgsConstructor
 public class UserAddController {

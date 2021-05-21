@@ -3,6 +3,7 @@ package com.lbycpd2.todoexp.restful.security;
 import com.lbycpd2.todoexp.restful.security.jwt.AuthenticationRequest;
 import com.lbycpd2.todoexp.restful.security.jwt.AuthenticationResponse;
 import com.lbycpd2.todoexp.restful.security.util.JWTUtil;
+import com.lbycpd2.todoexp.restful.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,6 +23,7 @@ public class AuthController {
 
     private final AuthenticationManager authManager;
     private final UserDetailsService userDetailsService;
+    private final UserService userService;
     private final JWTUtil jwtUtil;
 
     @PostMapping(path = "/auth")
@@ -38,7 +40,11 @@ public class AuthController {
         final String jwt = jwtUtil.generateToken(userDetails);
 
         Cookie jwtCookie = new Cookie("auth", jwt);
+        Cookie userCookie = new Cookie("username", authRequest.getUsername());
+        Cookie userIdCookie = new Cookie("userId", userService.getUserByEmail(authRequest.getUsername()).getUser_id());
         response.addCookie(jwtCookie);
+        response.addCookie(userCookie); // will be used as principal
+        response.addCookie(userIdCookie);
 
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
 
