@@ -8,6 +8,7 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
+import java.util.Random;
 
 @MappedSuperclass
 @AllArgsConstructor
@@ -17,6 +18,7 @@ public class Task {
     private String title;
     private String description;
     private boolean status;
+    private Integer experience;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -30,5 +32,6 @@ public class Task {
         this.title = title;
         this.description = description;
         this.status = false;
+        this.experience = Math.abs(10 + (int) (new Random().nextFloat() * (10 - 500)));
     }
 }

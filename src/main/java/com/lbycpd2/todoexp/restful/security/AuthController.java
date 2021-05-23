@@ -10,15 +10,16 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin("*")
 public class AuthController {
 
     private final AuthenticationManager authManager;
@@ -39,14 +40,7 @@ public class AuthController {
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.getUsername());
         final String jwt = jwtUtil.generateToken(userDetails);
 
-        Cookie jwtCookie = new Cookie("auth", jwt);
-        Cookie userCookie = new Cookie("username", authRequest.getUsername());
-        Cookie userIdCookie = new Cookie("userId", userService.getUserByEmail(authRequest.getUsername()).getUser_id());
-        response.addCookie(jwtCookie);
-        response.addCookie(userCookie); // will be used as principal
-        response.addCookie(userIdCookie);
-
-        return ResponseEntity.ok(new AuthenticationResponse(jwt));
+        return ResponseEntity.ok(new AuthenticationResponse(jwt, userService.getUserByEmail(authRequest.getUsername()).getUser_id()));
 
     }
 }
