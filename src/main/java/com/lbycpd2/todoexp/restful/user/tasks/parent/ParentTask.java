@@ -52,4 +52,8 @@ public class ParentTask extends Task {
     public ParentTask(String title, String description){
         super(title, description);
     }
+
+    public ParentTask(String title, String description, String date){
+        super(title, description, date);
+    }
 }

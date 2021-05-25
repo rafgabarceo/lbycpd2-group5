@@ -27,8 +27,9 @@ public class EmailSenderService {
         helper.setFrom("noreply@todoexp.com");
         helper.setTo(userMail);
         helper.setSubject("Confirmation email for todoexp");
-        String linkString = new String("http://34.126.112.11:8080/" + token);
-        helper.setText("Please click <a href=\"" + linkString + "\">here</a> to confirm your email.", true);
+        String linkString = new String("http://localhost:8080/register/confirm/" + token);
+        helper.setText("Please click <a href=register/confirm/\"" + linkString + "\">here</a> to confirm your email." +
+                "If there is no button, please copy and paste this link: " +  linkString , true);
 
         sendEmail(msg);
     }

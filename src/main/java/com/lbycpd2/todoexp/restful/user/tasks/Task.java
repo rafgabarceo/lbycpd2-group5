@@ -7,7 +7,9 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.MappedSuperclass;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
 @MappedSuperclass
@@ -18,12 +20,12 @@ public class Task {
     private String title;
     private String description;
     private boolean status;
-    private Integer experience;
+    private int experience;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-    private LocalDateTime dueDate;
+    private LocalDate dueDate;
 
     public Task() {
     }
@@ -32,6 +34,14 @@ public class Task {
         this.title = title;
         this.description = description;
         this.status = false;
-        this.experience = Math.abs(10 + (int) (new Random().nextFloat() * (10 - 500)));
+        this.experience = Math.abs(10 + (int) (new Random().nextFloat() * (10 - 200)));
+    }
+
+    public Task(String title, String description, String date){
+        LocalDate dateTime = LocalDate.parse(date);
+        this.title = title;
+        this.description = description;
+        this.dueDate = dateTime;
+        this.experience = 0;
     }
 }

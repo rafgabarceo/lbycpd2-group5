@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -121,9 +122,8 @@ public class UserService {
     }
 
     public void setDeadline(User user, ParentTask parentTask, String date){
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        LocalDateTime dateTime = LocalDateTime.parse(date, dateTimeFormatter);
-        user.getParentTaskList().get(user.getParentTaskList().indexOf(parentTask)).setDueDate(dateTime);
+        LocalDate formatDate = LocalDate.parse(date);
+        user.getParentTaskList().get(user.getParentTaskList().indexOf(parentTask)).setDueDate(formatDate);
         userRepository.save(user);
     }
 
@@ -141,7 +141,7 @@ public class UserService {
             return;
         }
 
-        user.getParentTaskList().get(user.getParentTaskList().indexOf(parentTask)).setTitle(description);
+        user.getParentTaskList().get(user.getParentTaskList().indexOf(parentTask)).setDescription(description);
         updateUser(user);
     }
 
@@ -180,6 +180,13 @@ public class UserService {
         } catch (Exception e){
             System.out.println("Unable to add user with exception" + e.getMessage());
         }
+    }
+
+    public void addExperience(User user, int exp){
+        Double currentExp = user.getExperience();
+        currentExp = currentExp + exp;
+        user.setExperience(currentExp);
+        updateUser(user);
     }
 
     public void updateUser(User user){

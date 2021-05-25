@@ -131,16 +131,20 @@ public class UserController {
         }
     }
 
-    @PutMapping(path = "{id}/{parent_id}/")
+    @PutMapping(path = "{id}/{parent_id}")
     public ResponseEntity<String> updateParent(@PathVariable(name = "id") String user_id,
                                            @PathVariable(name = "parent_id") String parent_id,
                                            @RequestBody ParentTask parentTask) {
         try {
             userService.setTitle(userService.getUser(user_id),userService.getParentTask(user_id, parent_id), parentTask.getTitle());
             userService.setDescription(userService.getUser(user_id),userService.getParentTask(user_id, parent_id), parentTask.getDescription());
+            if(parentTask.getDueDate() == null){
+                return new ResponseEntity<>("Updated! (w/o date)", HttpStatus.OK);
+            }
+            userService.setDeadline(userService.getUser(user_id), userService.getParentTask(user_id, parent_id), parentTask.getDueDate().toString());
             return new ResponseEntity<>("Updated!", HttpStatus.OK);
         } catch (Exception e){
-            return new ResponseEntity<>("Unable to update", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.toString(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -149,6 +153,22 @@ public class UserController {
                                                @PathVariable(name = "parent_id") String parent_id) throws UserNotFoundException, TaskNotFoundException {
         userService.deleteParentTask(userService.getUser(user_id), userService.getParentTask(user_id, parent_id));
         return new ResponseEntity<String>("Task deleted", HttpStatus.OK);
+    }
+
+    @DeleteMapping(path = "{id}/{parent_id}/{child_id}")
+    public ResponseEntity<String> deleteChild(@PathVariable(name = "id") String user_id,
+                                              @PathVariable(name = "parent_id") String parent_id,
+                                              @PathVariable(name = "child_id") String child_id) throws UserNotFoundException, TaskNotFoundException {
+        userService.deleteChildTask(userService.getUser(user_id), userService.getParentTask(user_id, parent_id), userService.getChildTask(user_id, parent_id, child_id));
+        return new ResponseEntity<>("Successfully deleted child task", HttpStatus.OK);
+    }
+
+    @PutMapping(path = "{id}/{parent_id}/finish")
+    public ResponseEntity<String> refreshExperience(@RequestBody ExperienceRequest experience,
+                                                    @PathVariable(name = "id") String user_id,
+                                                    @PathVariable(name = "parent_id") String parent_id){
+        userService.addExperience(userService.getUser(user_id), experience.getExperience());
+        return new ResponseEntity<>("Added experience", HttpStatus.OK);
     }
 
     @PostMapping(path = "{id}/{parent_id}/addchild")
