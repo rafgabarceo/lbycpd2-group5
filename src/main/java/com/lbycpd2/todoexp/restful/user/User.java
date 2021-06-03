@@ -41,7 +41,7 @@ public class User {
     @JsonManagedReference
     private List<Badge> userBadges = new LinkedList<>();
 
-    private Double experience = 0.00;
+    private int experience;
 
     public User(String authorities, String email, String firstName, String lastName, String password) {
         this.firstName = firstName;
@@ -49,7 +49,7 @@ public class User {
         this.password = password;
         this.email = email;
         this.authorities = authorities;
-        this.experience = 0.00;
+        this.experience = 0;
     }
 
     // as suggested from https://stackoverflow.com/questions/53647672/how-to-save-parent-and-child-in-one-shot-jpa-hibernate

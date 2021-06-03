@@ -53,6 +53,26 @@ public class UserController {
         return null;
     }
 
+    @PutMapping(path = "{id}/finishAll")
+    public ResponseEntity<String> finishAllTasks(@PathVariable(name = "id") String id){
+        try {
+            userService.setAllFinished(userService.getUser(id));
+            return new ResponseEntity<>("Finished all tasks", HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>("Unable to finish all tasks", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping(path = "{id}/undofinish")
+    public ResponseEntity<String> unfinishAllTasks(@PathVariable(name = "id") String id){
+        try {
+            userService.setAllUndone(userService.getUser(id));
+            return new ResponseEntity<>("Unfinished all tasks", HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>("Unable to unfinish all tasks", HttpStatus.BAD_REQUEST);
+        }
+    }
+
 
     @GetMapping(path="{id}/tasks")
     public CollectionModel<EntityModel<ParentTask>> getUserParentTasks(@PathVariable(name = "id") String id){
@@ -164,11 +184,14 @@ public class UserController {
     }
 
     @PutMapping(path = "{id}/{parent_id}/finish")
-    public ResponseEntity<String> refreshExperience(@RequestBody ExperienceRequest experience,
-                                                    @PathVariable(name = "id") String user_id,
-                                                    @PathVariable(name = "parent_id") String parent_id){
-        userService.addExperience(userService.getUser(user_id), experience.getExperience());
-        return new ResponseEntity<>("Added experience", HttpStatus.OK);
+    public ResponseEntity<String> refreshExperience(@PathVariable(name = "id") String user_id,
+                                                    @PathVariable(name = "parent_id") String parent_id) {
+        try {
+            userService.addExperience(userService.getUser(user_id), userService.getParentTask(user_id, parent_id));
+            return new ResponseEntity<>("Added experience", HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>("Unable to add experience", HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping(path = "{id}/{parent_id}/addchild")

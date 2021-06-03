@@ -121,6 +121,24 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public void setAllFinished(User user){
+        user.getParentTaskList().forEach((item) -> {
+            if(!item.isStatus()){
+                item.setStatus(true);
+            }
+        });
+        updateUser(user);
+    }
+
+    public void setAllUndone(User user){
+        user.getParentTaskList().forEach((item) -> {
+            if(item.isStatus()){
+                item.setStatus(false);
+            }
+        });
+        updateUser(user);
+    }
+
     public void setDeadline(User user, ParentTask parentTask, String date){
         LocalDate formatDate = LocalDate.parse(date);
         user.getParentTaskList().get(user.getParentTaskList().indexOf(parentTask)).setDueDate(formatDate);
@@ -182,10 +200,8 @@ public class UserService {
         }
     }
 
-    public void addExperience(User user, int exp){
-        Double currentExp = user.getExperience();
-        currentExp = currentExp + exp;
-        user.setExperience(currentExp);
+    public void addExperience(User user, ParentTask parentTask){
+        user.setExperience(user.getExperience() + parentTask.getExperience());
         updateUser(user);
     }
 
